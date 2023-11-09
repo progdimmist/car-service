@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>More Worker</title>
+    <style>
+        body {
+            background-color: #f2f2f2;
+        }
+
+        .worker-details {
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 400px;
+        }
+
+        .worker-details h3 {
+            color: #333;
+        }
+
+        .worker-details p {
+            margin: 10px 0;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+    <div class="worker-details">
+        <h3>Worker Details</h3>
+        <p>ID: {{ worker[0] }}</p>
+        <p>Surname: {{ worker[1] }}</p>
+        <p>First Name: {{ worker[2] }}</p>
+        <p>Patronymic: {{ worker[3] }}</p>
+        <p>Date of Birth: {{ worker[4] }}</p>
+        <p>Address: {{ worker[5] }}</p>
+        <p>Phone Number: {{ worker[6] }}</p>
+        <p>Position: {{ worker[7] }}</p>
+        <p>Salary: {{ worker[8] }}</p>
+        <p>Length of Service: {{ worker[9] }}</p>
+        <p>Operating Mode: {{ worker[10] }}</p>
+        <p>Seniority Allowance: {{ worker[11] }}</p>
+        <!-- Add more worker details if necessary -->
+    </div>
+</body>
+</html>

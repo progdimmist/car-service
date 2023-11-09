@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Worker</title>
+    <style>
+        body {
+            background-color: #f2f2f2;
+        }
+
+        .edit-worker-form {
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 400px;
+        }
+
+        .edit-worker-form h3 {
+            color: #333;
+        }
+
+        .edit-worker-form label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .edit-worker-form input[type="text"] {
+            width: 100%;
+            padding: 5px;
+            border: 1px solid #888;
+            border-radius: 3px;
+        }
+
+        .edit-worker-form button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        .edit-worker-form button:hover {
+            background-color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="edit-worker-form">
+        <h3>Edit Worker</h3>
+        <form method="POST" action="{{ url_for('edit_worker', worker_id=worker[0]) }}">
+            <label for="surname_worker">Surname:</label>
+            <input type="text" name="surname_worker" id="surname_worker" value="{{ worker[1] }}" required>
+
+            <label for="first_name_worker">First Name:</label>
+            <input type="text" name="first_name_worker" id="first_name_worker" value="{{ worker[2] }}" required>
+
+            <label for="patronymic_worker">Patronymic:</label>
+            <input type="text" name="patronymic_worker" id="patronymic_worker" value="{{ worker[3] }}" required>
+
+            <label for="date_birth_worker">Date of Birth:</label>
+            <input type="text" name="date_birth_worker" id="date_birth_worker" value="{{ worker[4] }}" required>
+
+            <label for="address_worker">Address:</label>
+            <input type="text" name="address_worker" id="address_worker" value="{{ worker[5] }}" required>
+
+            <label for="phone_number_worker">Phone Number:</label>
+            <input type="text" name="phone_number_worker" id="phone_number_worker" value="{{ worker[6] }}" required>
+
+            <label for="position_worker">Position:</label>
+            <input type="text" name="position_worker" id="position_worker" value="{{ worker[7] }}" required>
+
+            <label for="salary_worker">Salary:</label>
+            <input type="text" name="salary_worker" id="salary_worker" value="{{ worker[8] }}" required>
+
+            <label for="length_service">Length service:</label>
+            <input type="text" name="length_service" id="length_service" value="{{ worker[9] }}" required>
+
+            <label for="operating_mode">Operating mode:</label>
+            <input type="text" name="operating_mode" id="operating_mode" value="{{ worker[10] }}" required>
+
+            <label for="seniority_allowance">Seniority allowance</label>
+            <input type="text" name="seniority_allowance" id="seniority_allowance" value="{{ worker[11] }}" required>
+
+            <button type="submit">Save</button>
+        </form>
+    </div>
+</body>

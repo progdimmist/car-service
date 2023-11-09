@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Автосервис</title>
+    <style>
+        .actions-column {
+            width: 50px;
+            padding: 0px;
+        }
+
+        .tab {
+            overflow: hidden;
+            position: relative;
+        }
+
+        .tab button {
+            background-color: #f2f2f2;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            padding: 12px 20px;
+            transition: background-color 0.3s;
+            float: right;
+            font-size: 18px;
+            margin-left: 10px;
+        }
+
+
+        a {
+            padding: 12px 20px;
+            transition: background-color 0.3s;
+            float: right;
+            font-size: 18px;
+            margin-left: 10px;
+            color: red;
+        }
+
+        .tab button:hover {
+            background-color: #ddd;
+        }
+
+        .tab button.active {
+            background-color: #ccc;
+        }
+
+        body {
+            background-color: #f2f2f2;
+            background-image: url('/static/background.jpg');
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-attachment: fixed;
+            background-size: cover;
+        }
+
+        #home.tabcontent.active-tab {
+            display: none;
+            padding: 10px;
+            font-size: 20px;
+            border: solid gray 2px;
+            width: 450px;
+            height: 570px;
+            border-radius: 20px;
+            background: linear-gradient(rgba(0, 0, 0, 0.65), rgba(25, 25, 112, 0.65));
+            margin-left: 60px;
+            line-height: 1;
+            color: white;
+        }
+
+        #contacts.tabcontent.active-tab {
+            display: none;
+            padding: 8px;
+            font-size: 20px;
+            margin-left: 40px;
+            color: white;
+        }
+
+        .tabcontent.active-tab {
+            display: block;
+        }
+
+        table {
+          background-color: rgba(25, 25, 112, 0.4);
+          color: white;
+          width: 100%;
+          margin-bottom: 30px;
+          border-collapse: collapse; /* Убираем внешние границы ячеек */
+        }
+
+        th, td {
+          padding: 8px;
+          text-align: left;
+          border: 2px solid black; /* Добавляем границу для каждой ячейки */
+        }
+
+        thead {
+          background-color: rgba(25, 25, 112, 0.8);
+        }
+
+        .hidden-column {
+            display: none;
+            width: 50px;
+        }
+
+        th {
+          font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<div class="tab">
+    {% if 'user_id' in session %}
+    <a href="/logout" class="logout-button">Logout</a>
+    {% else %}
+    <a href="/login" class="login-button">Login</a>
+    {% endif %}
+    <button class="tablinks" onclick="openTab(event, 'cars')">Cars</button>
+    <button class="tablinks" onclick="openTab(event, 'contacts')">Contacts</button>
+    <button class="tablinks" onclick="openTab(event, 'home')" id="defaultOpen">Main</button>
+
+</div>
+
+<div id="home" class="tabcontent active-tab">
+    <h3>Car service</h3>
+    <p>Contact phone number: 123-456-789</p>
+    <p>Adr: 123-456-789</p>
+    <p>Description of the car service:</p>
+    <p>Fast and high-quality repairs with a guarantee</p>
+    <p>MC Service service centers are open to all car brands!</p>
+    <p>We service cars of all brands, and the owner of any of them will be able to receive the highest level of service
+        and quality assurance for all work performed in four MC Service centers</p>
+    <p>We carry out any service work – from maintenance and computer diagnostics to locksmith and body repair.</p>
+    <p>Advantages of our technical centers:</p>
+    <p>-Warranty for the performance of work and installed spare parts up to 12 months.</p>
+</div>
+
+<div id="contacts" class="tabcontent">
+    <h3>Contacts</h3>
+    <table class="dark-table">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Surname</th>
+            <th>First name</th>
+            <th>Patronymic</th>
+            <th>Date birth</th>
+            <th>Address</th>
+            <th>Phone number</th>
+            <th>Position</th>
+            <th>Salary</th>
+            <th>Length service</th>
+            <th>Operating mode</th>
+            <th>Seniority allowance</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        {% for worker in workers %}
+        <tr>
+            <td>{{ worker[0]|safe  }}</td>
+            <td>{{ worker[1]|safe  }}</td>
+            <td>{{ worker[2]|safe  }}</td>
+            <td>{{ worker[3]|safe  }}</td>
+            <td>{{ worker[4]|safe  }}</td>
+            <td>{{ worker[5]|safe  }}</td>
+            <td>{{ worker[6]|safe  }}</td>
+            <td>{{ worker[7]|safe  }}</td>
+            <td>{{ worker[8]|safe  }}</td>
+            <td>{{ worker[9]|safe  }}</td>
+            <td>{{ worker[10]|safe  }}</td>
+            <td>{{ worker[11]|safe  }}</td>
+            <td class="actions-column">
+                <a style="color: white" href="{{ url_for('edit_worker', worker_id=worker[0]) }}">Edit</a>
+                <a style="color: white" href="{{ url_for('delete_worker', worker_id=worker[0]) }}">Delete</a>
+                <a style="color: white" href="#" onclick="toggleDetails('{{ worker[0] }}')">More</a>
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <h3>Add worker</h3>
+    <form method="POST" action="{{ url_for('add_worker') }}">
+        <input type="text" name="worker_id" placeholder="ID" required><br>
+        <input type="text" name="surname_worker" placeholder="Surname" required><br>
+        <input type="text" name="first_name_worker" placeholder="First name" required><br>
+        <input type="text" name="patronymic_worker" placeholder="Patronymic" required><br>
+        <input type="text" name="date_birth_worker" placeholder="Date birth" required><br>
+        <input type="text" name="address_worker" placeholder="Address" required><br>
+        <input type="text" name="phone_number_worker" placeholder="Phone number" required><br>
+        <input type="text" name="position_worker" placeholder="Position" required><br>
+        <input type="text" name="salary_worker" placeholder="Salary" required><br>
+        <input type="text" name="length_service" placeholder="Length service" required><br>
+        <input type="text" name="operating_mode" placeholder="Operating mode" required><br>
+        <input type="text" name="seniority_allowance" placeholder="Seniority allowance" required><br>
+        <button type="submit">Add Worker</button>
+    </form>
+</div>
+
+<div id="cars" class="tabcontent">
+    <h3>Car</h3>
+    <table class="dark-table">
+        <thead>
+        <tr>
+            <th>Car number</th>
+            <th>Model</th>
+            <th>Release date</th>
+            <th>Client id</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for car in cars %}
+        <tr>
+            <td>{{ car[0]|safe  }}</td>
+            <td>{{ car[1]|safe  }}</td>
+            <td>{{ car[2]|safe  }}</td>
+            <td><a style="color: white; float: left;" href="{{ url_for('client_details', client_id=car[3]) }}">{{ car[3] }}</a></td>
+
+            <td class="actions-column">
+                <a style="color: white" href="{{ url_for('delete_car', car_number=car[0]) }}">Delete</a>
+                <a style="color: white" href="{{ url_for('edit_car', car_number=car[0]) }}">Edit</a>
+    </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <h3>Add car</h3>
+    <form method="POST" action="{{ url_for('add_car') }}">
+        <input type="text" name="car_number" placeholder="car_number" required><br>
+        <input type="text" name="model" placeholder="model" required><br>
+        <input type="text" name="release_date" placeholder="release_date" required><br>
+
+        <input type="text" name="client_id" placeholder="client_id" required><br>
+        <input type="text" name="surname_client" placeholder="surname_client" required><br>
+        <input type="text" name="first_name_client" placeholder="first_name_client" required><br>
+        <input type="text" name="patronymic_client" placeholder="patronymic_client" required><br>
+        <input type="text" name="phone_number_client" placeholder="phone_number_client" required><br>
+        <button type="submit">Add car and client</button>
+    </form>
+</div>
+
+<script>
+    // Открывает вкладку по умолчанию ("Главная")
+    document.getElementById("defaultOpen").click();
+
+    function openTab(evt, tabName) {
+        var i, tabcontent, tablinks;
+
+        // Скрывает все контенты вкладок
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+            tabcontent[i].classList.remove("active-tab"); // Remove the active class
+        }
+
+        // Удаляет активное состояние у всех вкладок
+        tablinks = document.getElementsByClassName("tablinks");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+
+        // Показывает выбранный контент вкладки и добавляет активное состояние для кнопки вкладки
+        document.getElementById(tabName).style.display = "block";
+        document.getElementById(tabName).classList.add("active-tab"); // Add the active class
+        evt.currentTarget.className += " active";
+    }
+
+
+
+</script>
+<script>
+  function toggleDetails(workerId) {
+    var elements = document.querySelectorAll('[id^="worker-details-' + workerId + '"]');
+    for (var i = 0; i < elements.length; i++) {
+      var element = elements[i];
+      if (element.style.display === "none") {
+        element.style.display = "table-cell"; // Change from "none" to "table-cell"
+      } else {
+        element.style.display = "none";
+      }
+    }
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Client Details</title>
+    <style>
+        /* Custom CSS Styles */
+        body {
+            background-color: #f2f2f2;
+            font-family: Arial, sans-serif;
+        }
+
+        h3 {
+            color: #333;
+            text-align: center;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-gap: 20px;
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        .grid-item {
+            display: flex;
+            align-items: center;
+        }
+
+        .grid-item-label {
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .grid-item-value {
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <h3>Client Details</h3>
+    <div class="grid-container">
+        <div class="grid-item">
+            <span class="grid-item-label">ID:</span>
+            <span class="grid-item-value">{{ client[0] }}</span>
+        </div>
+        <div class="grid-item">
+            <span class="grid-item-label">Surname:</span>
+            <span class="grid-item-value">{{ client[1] }}</span>
+        </div>
+        <div class="grid-item">
+            <span class="grid-item-label">First Name:</span>
+            <span class="grid-item-value">{{ client[2] }}</span>
+        </div>
+        <div class="grid-item">
+            <span class="grid-item-label">Patronymic:</span>
+            <span class="grid-item-value">{{ client[3] }}</span>
+        </div>
+    </div>
+</body>
+</html>
