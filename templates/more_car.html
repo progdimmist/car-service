@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Car</title>
+    <style>
+        body {
+            background-color: #f2f2f2;
+        }
+
+        .car-details {
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 400px;
+        }
+
+        .car-details h3 {
+            color: #333;
+        }
+
+        .car-details p {
+            margin: 10px 0;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+    <div class="car-details">
+        <h3>Car</h3>
+        <p>Number: {{ car[0] }}</p>
+        <p>Model: {{ car[1] }}</p>
+        <p>Release date: {{ car[2] }}</p>
+        <p>Client id: {{ car[3] }}</p>
+    </div>
+</body>
+</html>

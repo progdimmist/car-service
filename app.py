@@ -10,6 +10,22 @@ def get_db():
     return conn
 
 
+@app.route('/search_clients', methods=['GET'])
+def search_car():
+    conn = get_db()
+    cursor = conn.cursor()
+
+    # Get search/filter parameters from request
+    car_number = request.args.get('car_number')
+
+    conn = get_db()
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM car WHERE car_number=?", (car_number,))
+    car = cursor.fetchone()
+    conn.close()
+    return render_template('more_car.html', car=car)
+
+
 @app.route('/add_worker', methods=['POST'])
 def add_worker():
     conn = get_db()
@@ -31,6 +47,25 @@ def add_worker():
         "INSERT INTO worker (worker_id, surname_worker, first_name_worker, patronymic_worker, date_birth_worker, address_worker, phone_number_worker, position_worker, salary_worker, length_service, operating_mode, seniority_allowance) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
         (worker_id, surname_worker, first_name_worker, patronymic_worker, date_birth_worker, address_worker,
          phone_number_worker, position_worker, salary_worker, length_service, operating_mode, seniority_allowance))
+
+    conn.commit()
+    conn.close()
+
+    return redirect(url_for('index') + '#contacts')
+
+
+@app.route('/add_client', methods=['POST'])
+def add_client():
+    conn = get_db()
+    cursor = conn.cursor()
+    client_id = request.form['client_id']
+    surname_client = request.form['surname_client']
+    first_name_client = request.form['first_name_client']
+    patronymic_client = request.form['patronymic_client']
+
+    cursor.execute(
+        "INSERT INTO client (client_id, surname_client, first_name_client, patronymic_client) VALUES (?, ?, ?, ?)",
+        (client_id, surname_client, first_name_client, patronymic_client))
 
     conn.commit()
     conn.close()
@@ -68,12 +103,25 @@ def add_car():
 def index():
     conn = get_db()
     cursor = conn.cursor()
+
+    order_by = "client_id"
+
+    if request.args.get("sort") == "id":
+        order_by = "client_id"
+    elif request.args.get("sort") == "surname":
+        order_by = "surname_client"
+    elif request.args.get("sort") == "name":
+        order_by = "first_name_client"
+    elif request.args.get("sort") == "patronymic":
+        order_by = "patronymic_client"
+
     cursor.execute("SELECT * FROM worker")
     workers = cursor.fetchall()
-    cursor.execute("SELECT * FROM client")
+    cursor.execute(f"SELECT * FROM client ORDER BY {order_by}")
     clients = cursor.fetchall()
     cursor.execute("SELECT * FROM car")
     cars = cursor.fetchall()
+
     conn.close()
     return render_template('index.html', workers=workers, clients=clients, cars=cars)
 

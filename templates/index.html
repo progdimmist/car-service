@@ -108,15 +108,10 @@
 </head>
 <body>
 <div class="tab">
-    {% if 'user_id' in session %}
-    <a href="/logout" class="logout-button">Logout</a>
-    {% else %}
-    <a href="/login" class="login-button">Login</a>
-    {% endif %}
+    <button class="tablinks" onclick="openTab(event, 'home')">About service</button>
     <button class="tablinks" onclick="openTab(event, 'cars')">Cars</button>
     <button class="tablinks" onclick="openTab(event, 'contacts')">Contacts</button>
-    <button class="tablinks" onclick="openTab(event, 'home')" id="defaultOpen">Main</button>
-
+    <button class="tablinks" onclick="openTab(event, 'clients')" id="defaultOpen">Clients</button>
 </div>
 
 <div id="home" class="tabcontent active-tab">
@@ -195,8 +190,59 @@
     </form>
 </div>
 
+<div id="clients" class="tabcontent">
+<h3>Clients</h3>
+    <button class="tablinks" onclick="openTab(event, 'clients')">
+    <a style="padding: 2px 2px; margin-left: 2px; color: blue; font-size: 14px;" href="{{ url_for('index', sort='id') }}">By id</a>
+</button>
+    <button class="tablinks" onclick="openTab(event, 'clients')">
+    <a style="padding: 2px 2px; margin-left: 2px; color: blue; font-size: 14px;" href="{{ url_for('index', sort='surname') }}">By surname</a>
+</button>
+    <button class="tablinks" onclick="openTab(event, 'clients')">
+    <a style="padding: 2px 2px; margin-left: 2px; color: blue; font-size: 14px;" href="{{ url_for('index', sort='name') }}">By name</a>
+</button>
+    <button class="tablinks" onclick="openTab(event, 'clients')">
+    <a style="padding: 2px 2px; margin-left: 2px; color: blue; font-size: 14px;" href="{{ url_for('index', sort='patronymic') }}">By patronymic</a>
+</button>
+    <table class="dark-table">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Surname</th>
+            <th>First name</th>
+            <th>Patronymic</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for client in clients %}
+        <tr>
+            <td>{{ client[0]|safe  }}</td>
+            <td>{{ client[1]|safe  }}</td>
+            <td>{{ client[2]|safe  }}</td>
+            <td>{{ client[3]|safe  }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+    <h3>Add client</h3>
+    <form method="POST" action="{{ url_for('add_client') }}">
+        <input type="text" name="worker_id" placeholder="ID" required><br>
+        <input type="text" name="surname_worker" placeholder="Surname" required><br>
+        <input type="text" name="first_name_worker" placeholder="First name" required><br>
+        <input type="text" name="patronymic_worker" placeholder="Patronymic" required><br>
+        <button type="submit">Add client</button>
+    </form>
+
+</div>
+
 <div id="cars" class="tabcontent">
     <h3>Car</h3>
+    <form method="GET" action="{{ url_for('search_car') }}">
+        <input type="text" name="car_number" placeholder="car_number" required>
+        <button type="submit">Search</button>
+    </form>
     <table class="dark-table">
         <thead>
         <tr>
@@ -241,6 +287,7 @@
     // Открывает вкладку по умолчанию ("Главная")
     document.getElementById("defaultOpen").click();
 
+
     function openTab(evt, tabName) {
         var i, tabcontent, tablinks;
 
@@ -278,6 +325,23 @@
       }
     }
   }
+</script>
+<script>
+    window.onload = function() {
+        var currentUrl = window.location.href;
+        if (currentUrl.indexOf("?sort=name") !== -1) {
+            document.getElementById("clients").classList.add("active");
+        }
+        if (currentUrl.indexOf("?sort=surname") !== -1) {
+            document.getElementById("clients").classList.add("active");
+        }
+        if (currentUrl.indexOf("?sort=id") !== -1) {
+            document.getElementById("clients").classList.add("active");
+        }
+        if (currentUrl.indexOf("?sort=patronymic") !== -1) {
+            document.getElementById("clients").classList.add("active");
+        }
+    }
 </script>
 </body>
 </html>
